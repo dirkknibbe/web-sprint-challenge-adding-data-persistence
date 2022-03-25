@@ -6,7 +6,9 @@ const getById = (task_id) => {
 };
 
 function getTasks() {
-  return db("tasks");
+  return db("tasks as t")
+    .leftJoin("projects as p", "p.project_id", "t.project_id")
+    .select("p.project_name", "p.project_description");
 }
 
 async function add(task) {
