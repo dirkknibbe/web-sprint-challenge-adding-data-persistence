@@ -16,18 +16,27 @@ taskRouter.get("/", (req, res, next) => {
       });
       return tasks;
     })
-    .then((tasks) => {
-      res.json(tasks);
+    .then((editedTask) => {
+      res.json(editedTask);
     })
     .catch(next);
 });
 
 taskRouter.post("/", (req, res, next) => {
   const newTask = req.body;
+
   taskModel
     .add(newTask)
     .then((task) => {
-      res.status(201).json(task);
+      if (task.task_completed === 0) {
+        task.task_completed = false;
+      } else if (task.task_completed === 1) {
+        task.task_completed = true;
+      }
+      return task;
+    })
+    .then((task) => {
+      res.json(task);
     })
     .catch(next);
 });

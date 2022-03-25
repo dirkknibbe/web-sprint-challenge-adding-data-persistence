@@ -24,19 +24,20 @@ projectRouter.get("/", (req, res, next) => {
 
 projectRouter.post("/", (req, res, next) => {
   const newProject = req.body;
+
   projectModel
     .add(newProject)
-    .then((newProject) => {
-      newProject.map((project) => {
-        if (project.project_completed === 0) {
-          project.project_completed = false;
-        } else if (project.project_completed === 1)
-          project.project_completed = true;
-      });
-      return newProject;
+
+    .then((proj) => {
+      if (proj.project_completed === 0) {
+        proj.project_completed = false;
+      } else if (proj.project_completed === 1) {
+        proj.project_completed = true;
+      }
+      return proj;
     })
-    .then((newProject) => {
-      res.json(newProject);
+    .then((proj) => {
+      res.json(proj);
     })
     .catch(next);
 });
