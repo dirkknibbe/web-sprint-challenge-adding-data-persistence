@@ -7,10 +7,16 @@ taskRouter.get("/", (req, res, next) => {
   taskModel
     .getTasks()
     .then((tasks) => {
-      console.log(tasks);
-      //   if (tasks.task_completed === 0) {
-      //     return false;
-      //   }
+      tasks.map((task) => {
+        if (task.task_completed === 0) {
+          task.task_completed = false;
+        } else if (task.task_completed === 1) {
+          task.task_completed = true;
+        }
+      });
+      return tasks;
+    })
+    .then((tasks) => {
       res.json(tasks);
     })
     .catch(next);

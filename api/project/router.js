@@ -8,9 +8,15 @@ projectRouter.get("/", (req, res, next) => {
   projectModel
     .getProjects()
     .then((projects) => {
-      //   if (projects.project_completed === 0) {
-      //     return false;
-      //   }
+      projects.map((project) => {
+        if (project.project_completed === 0) {
+          project.project_completed = false;
+        } else if (project.project_completed === 1)
+          project.project_completed = true;
+      });
+      return projects;
+    })
+    .then((projects) => {
       res.json(projects);
     })
     .catch(next);
@@ -20,8 +26,17 @@ projectRouter.post("/", (req, res, next) => {
   const newProject = req.body;
   projectModel
     .add(newProject)
-    .then((project) => {
-      res.status(201).json(project);
+    .then((newProject) => {
+      newProject.map((project) => {
+        if (project.project_completed === 0) {
+          project.project_completed = false;
+        } else if (project.project_completed === 1)
+          project.project_completed = true;
+      });
+      return newProject;
+    })
+    .then((newProject) => {
+      res.json(newProject);
     })
     .catch(next);
 });
