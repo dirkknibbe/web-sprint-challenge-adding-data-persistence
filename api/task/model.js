@@ -8,7 +8,13 @@ const getById = (task_id) => {
 function getTasks() {
   return db("tasks as t")
     .leftJoin("projects as p", "p.project_id", "t.project_id")
-    .select("p.project_name", "p.project_description");
+    .select(
+      "t.task_completed",
+      "t.task_description",
+      "t.task_notes",
+      "p.project_name",
+      "p.project_description"
+    );
 }
 
 async function add(task) {
