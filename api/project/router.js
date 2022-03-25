@@ -8,7 +8,6 @@ projectRouter.get("/", (req, res, next) => {
   projectModel
     .getProjects()
     .then((projects) => {
-      console.log(projects);
       //   if (projects.project_completed === 0) {
       //     return false;
       //   }

@@ -2,12 +2,17 @@
 
 const db = require("../../data/dbConfig.js");
 
+const getById = (project_id) => {
+  return db("projects").where("project_id", project_id).first();
+};
+
 function getProjects() {
   return db("projects");
 }
 
-function add(project) {
-  return db("projects").insert(project);
+async function add(project) {
+  const [project_id] = await db("projects").insert(project);
+  return getById(project_id);
 }
 
-module.exports = { getProjects, add };
+module.exports = { getProjects, add, getById };
